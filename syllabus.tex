@@ -1,0 +1,1627 @@
+%\documentclass[a4paper,12pt]{article}
+\documentclass[letterpaper,11pt,twoside]{article}
+%\documentclass[final]{newsiambook}
+\usepackage{amssymb,amsmath, amscd} 
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{framed}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{titletoc}
+\usepackage{indentfirst}
+\usepackage[left=2.5cm,top=3cm,right=2.5cm,bottom=3cm,bindingoffset=0.5cm]{geometry}
+%\usepackage[bookmarks=true]{hyperref} % redboxes.
+\usepackage[allcolors=blue,colorlinks=true]{hyperref}
+%\usepackage[anythingbreaks]{breakurl}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+
+%Set Margins
+
+  
+% Itemize
+\renewcommand{\labelenumi}{(\roman{enumi})}
+\renewcommand{\labelenumii}{\arabic{enumii}.}
+ 
+\newcounter{ExerciseCounter}
+\newcounter{SolutionCounter}  
+  
+\theoremstyle{definition}
+\newtheorem{lea}{Learning Goal}[section]
+\newcommand{\fr}[1]{\begin{framed}#1\end{framed}}
+%\newtheorem{exerc}{Exercise}[section]
+
+
+% Change the theorem style temporarily for solutions.
+% I want just the word solutions and no period to display at the end.	
+\newtheoremstyle{noPeriod} % name
+    {\topsep}                    % Space above
+    {\topsep}                    % Space below
+    {\normalfont}                   % Body font
+    {}                           % Indent amount
+    {\bfseries}                   % Theorem head font
+    {}                          % Punctuation after theorem head
+    {.5em}                       % Space after theorem head
+    {}  % Theorem head spec (can be left empty, meaning ‘normal’)
+
+\theoremstyle{noPeriod}
+\newtheorem*{solution}{Solution}
+\newtheorem{exerc}{}[section]
+
+
+
+% Command \frlea
+%
+% Public command
+% Pre: One parameter for the learning goal
+% Post: Creates a learning goal that is numbered and framed
+% Additional Information:
+% Switch this command to the second option remove framing from the learning goals
+% Switch to the last option to remove learning goals all together
+
+\newcommand{\frlea}[1]{\fr{\lea{#1}}}
+%\newcommand{\frlea}[1]{\lea{#1}}
+%\newcommand{\frlea}[1]{}
+
+
+
+
+% Command \exer
+%
+% Private command - should not be called in the document body.
+% Pre: One parameter for the exercise
+% Post: Creates an exercise that is numbered and links to a solution at the end.
+% Additional Information: Switch this command with the remarked command below to toggle (in)visible exercises
+
+\newcommand{\exer}[1]{\noindent \refstepcounter{exerc} \textbf{\hyperref[sol\arabic{ExerciseCounter}]{Exercise~\theexerc}}  \nolinebreak\nolinebreak \enskip #1 \label{exer\arabic{ExerciseCounter}}   \stepcounter{ExerciseCounter}\vskip1em}
+%\newcommand{\exer}[1]{}
+
+
+% Command \soln
+%
+% Private command - should not be called in the document body.
+% Pre: One parameter with the solution to a question.
+% Post: Creates a solution linked at the end of the document.
+% Additional Information: Switch this command with the remarked command below to toggle (in)visible solutions
+\newcommand{\soln}[1]{ \AtEndDocument{ \textbf{\hyperref[exer\arabic{SolutionCounter}]{\noindent Solution to \ref{exer\arabic{SolutionCounter}}}}	 #1 \phantomsection \label{sol\arabic{SolutionCounter}} \vskip1em  \stepcounter{SolutionCounter}} }
+%\newcommand{\soln}[1]{ \AtEndDocument{ \solution{\textbf{to \ref{exer\arabic{SolutionCounter}}} #1} \phantomsection \label{sol\arabic{SolutionCounter}}  \arabic{SolutionCounter}   \stepcounter{SolutionCounter}} }
+%\newcommand{\soln}[1]{}
+
+
+
+
+
+% Command \exsol
+%
+% Public command
+% Pre: Two parameters - The first containing an exercise and the second containing its solution.
+% Post: Creates an exercise and solution pairing with the solution linked at the end of the document.
+% Additional Information: Switch this command with the remarked command below to add/remove 
+% both exercises and solutions from document
+
+\newcommand{\exsol}[2]{\exer{#1} \soln{#2}}
+%\newcommand{\exsol}[2]{}
+
+
+
+% Command \extexa
+%
+% Public command
+% Pre: One parameter containing an exercise.
+% Post: Creates exercises without solutions in this document.
+% Additional Information: Switch this command to add/remove external exercises from document
+
+\theoremstyle{definition}
+\newtheorem*{extexa}{External Example}
+
+\newcommand{\extex}[1]{\extexa{#1} \vskip1em}
+%\newcommand{\extex}[1]{}
+
+
+
+
+% Command \relexam
+%
+% Public command
+% Pre: One parameter containing a list of urls.
+% Post: Lists the urls in a nice format with a heading.
+% Additional Information: Switch this command to add/remove the Math Exam Resource wiki links from document
+
+%This displays the urls at the end of each section.
+%Currently, all the bad box errors come from this section - I cannot get the \url to display properly.
+
+\newcommand{\relexam}[1]{\vskip1em Relevant exam questions from previous years can be found at the following links \begin{sloppypar}
+#1
+\end{sloppypar}}
+%\newcommand{\relexam}[1]{}
+
+
+
+% Command \rednote
+%
+% Public command
+% Pre: One parameter containing a note
+% Post: Displays the note in red. These notes are meant to be useful for instructors.
+% Additional Information: Switch this command to add/remove the red notes
+
+%\newcommand{\rednote}[1]{{\color{red} #1}}
+\newcommand{\rednote}[1]{}
+  
+  
+  
+  
+ 
+%Counters based on Blooms Taxonomy.
+%
+%Knowledge
+%Comprehension
+%Application
+%Analysis
+%Evaluation
+%Proof (Not in the standard Bloom's Taxonomy but is important)
+
+%Once you add a heading, be sure to update the associated counter so we can determine what skills we are testing.
+
+\newcounter{Kcount}
+\newcounter{Ccount}
+\newcounter{Apcount}
+\newcounter{Ancount}
+\newcounter{Ecount}
+\newcounter{Pcount}
+
+
+
+
+%These two lines are needed if you want each section to begin on a new page.
+
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+
+
+\begin{document}
+
+\hypersetup{pageanchor=false}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+
+\textsc{\LARGE University of British Columbia}\\[1.5cm]
+
+\textsc{\Large }\\[0.5cm]
+
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries Math 103 Syllabus \\[0.4cm] }
+
+\HRule \\[1.5cm]
+
+\vfill
+
+% Bottom of the page
+%{\large }
+
+\end{center}
+\end{titlepage}
+
+
+
+\tableofcontents
+\thispagestyle{empty}
+
+%\startcontents
+
+%\printcontents{}{}{}
+
+
+\newpage
+\hypersetup{pageanchor=true}
+
+\setcounter{page}{1}
+
+
+%
+%
+% Version
+%
+%
+
+
+
+\section*{Version}
+\addcontentsline{toc}{section}{Version}
+
+\noindent \textbf{Version 1.0} This file was created by Carmen Bruni in 2013, a then graduate student at the University of British Columbia.
+\vskip1em
+\noindent \textbf{Version 1.1} Updated by Carmen Bruni to correct numerous typos in the document. Updated the license and mission statement.
+\vskip1em
+
+
+%
+%
+% Mission Statement
+%
+%
+
+
+\section*{Mission Statement}
+\addcontentsline{toc}{section}{Mission Statement}
+
+The goal of this document is to provide a clear vision of Math 103 that can be utilized by both instructors and students to gain a perspective on what will be covered during a term. Throughout, learning goals are presented to help make it clear what instructors should teach and what knowledge students should expect to obtain upon successful completion of the course. 
+
+\vskip1em
+
+The Math 102 and 103 sequence is very different from its two sister first year calculus sequences offered at UBC. This sequence focuses heavily on biological applications and emphasizes understanding how these ideas play a role in real world situations. As such, many proofs are deemphasized if not altogether omitted (the main exception being the content on series).
+
+\vskip1em
+
+The document also makes extensive references to the Math Educational Resources wiki. This project began in 2012 out of a desire to create a free working resource for undergraduates. Graduate students volunteer their time towards the development of this project. The site can be found at 
+
+\begin{center}
+\url{http://wiki.ubc.ca/Science:Math_Educational_Resources}
+\end{center}
+
+ Here, students can find relevant exam questions \textbf{by exam} or \textbf{by topic}. Videos are also embedded on topic links to help reinforce concepts and aid in reminding students of the core ideas. The original author of this document, Carmen Bruni, included pencasts on the wiki which were created specifically for this course. Combining this with many of the examples present in this document makes this not only a syllabus, but an extremely valuable resource for students to ensure that they are learning the correct material in order to excel in this course.
+
+\vskip1em
+
+Solutions when provided are presented only in a minimalist form. Students working through the problems are encouraged to write out complete comprehensive solutions. These solutions are only present as a time saving measure for students. Students are more than welcomed and even encouraged to discuss questions found in this document with their instructors or fellow peers. Concerns or confusions found on the wiki should be discussed on the wiki itself.
+
+\vskip1em
+
+Any comments about this current version are welcomed and can be sent to Carmen Bruni at cbruni@alumni.ubc.ca. The TeX file is also available upon request.
+
+\vskip1em
+
+This document is licensed under the Creative Commons license CC-BY-SA
+
+\vskip1em
+
+- Carmen Bruni, December 5th, 2013 (modified May 4th, 2014)
+
+\section*{Prerequisites}
+\addcontentsline{toc}{section}{Prerequisites}
+
+The following is a base set of skills one needs in order to do well in this course. Any problems in these areas should seek immediate rectification.
+
+\begin{itemize}
+\item Adding, subtracting, multiplying and dividing rational functions (that is, functions where the numerator and denominator are both polynomials and the denominator is nonzero).
+\item Solving for roots of quadratic polynomials using all of the following methods: factoring, completing the square, and the quadratic formula. This also includes finding common factors in expressions
+\item Solving systems of equations
+\item Manipulate exponents including but not limited to $x^{a}x^{b} = x^{a+b}$, $(x^{a})^{b} = x^{ab}$, $\frac{x^{a}}{x^{b}} = x^{a-b}$, $y=e^{x} \Leftrightarrow \ln(y) = x$.
+\item Derivatives and graphs of elementary functions including $x^{a}$ where $a$ is a real number, trigonometric, inverse trigonometric, logarithmic and exponential functions.
+\item All rules of differentiation (power, product, quotient, chain rules).
+\item Understanding and being able to compute limits of functions.
+\item Basic familiarity with differential equations (what are they, how they are used).
+\item A working understanding of trigonometry, including but not limited to drawing the function of $\sin(x)$,$\cos(x)$,$\tan(x)$ and values of these functions at $0$,$\pi/6$,$\pi/4$,$\pi/3$,$\pi/2$ and these values added with multiples of $\pi /2$.
+\end{itemize}
+
+
+Solutions are included here to help with solving problems. These are in general \textit{not intended to be full solutions} but are included to help you verify that your work is correct. 
+\vskip1em
+Learning goal sections roughly correspond to weeks of the course which also roughly correspond to chapters in the course notes.
+\vskip1em
+Throughout this article, an implicit emphasis will be to apply many of these learning goals in a variety of biological applications not explicitly given in the exercises. These will be a mix of WebWork problems as well as examples covered in class. The best way to practice is to attempt problems and make sure you're familiar with examples covered in the notes (even if your instructor does not cover them in class).
+
+
+%
+%
+% CHAPTER 1
+%
+%
+
+
+\section{Area, Volume and Sigma Notation}
+
+\frlea{Know formulas for the areas and perimeters of basic shapes, including triangles, squares, regular $n$-gons, parallelograms and circles. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Explain Archimedes method for computing the exact value of $\pi$. [Knowledge, Evaluation]}
+
+\stepcounter{Kcount}
+\stepcounter{Ecount}
+
+\frlea{Know formulas for the surface areas and volumes of basic shapes, include cubes, rectangular boxes, cylinders and spheres. [Knowledge]}
+
+\stepcounter{Kcount}
+
+
+\frlea{Convert between sigma notation and standard notation. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\exsol{Write out the summation $\displaystyle \sum_{i=0}^{5}e^{i}$ in standard notation}{$1 + e + e^{2} + e^{3} + e^{4} + e^{5}$}
+
+\exsol{Write out the sum $2 + 5 + 10 + 17$ using sigma notation}{$\displaystyle \sum_{i=1}^{4}(i^{2}+1)$ (there are many answers)}
+
+\exsol{Write out the summation $\displaystyle \sum_{i=1}^{3}f(i+2)$ in standard notation where $f(x) = \ln(2x)$}{$\ln(6) + \ln(8) + \ln(10)$}
+
+\frlea{Calculate sums using the following identities: [Analysis]}
+
+\[
+\sum_{i=1}^{n}i = \frac{n(n+1)}{2} \quad\quad 
+\sum_{i=1}^{n}i^2 = \frac{n(n+1)(2n+1)}{6} \quad\quad 
+\sum_{i=1}^{n}i^3 = \left(\frac{n(n+1)}{2} \right)^{2}
+\]
+
+\stepcounter{Ancount}
+
+\exsol{Compute $\displaystyle \sum_{i=1}^{10}i^{2}$}{385}
+
+\frlea{Using the above identities and the linearity of summations, manipulate sums into a form that can be evaluated using those formulas and then compute their sums. [Application and Analysis]}
+
+\stepcounter{Apcount}
+\stepcounter{Ancount}
+
+\exsol{Compute $\displaystyle \sum_{i=5}^{15}(i-1)^{2}$}{1001}
+
+\exsol{Compute $\displaystyle \sum_{i=2}^{10}(i^{3}+2i+1)$}{3141}
+
+\exsol{Compute $\displaystyle \sum_{i=0}^{n}n$ where $n$ is a positive integer.}{$n(n+1)$ (this is not a typo!)}
+
+\frlea{Evaluate why a given answer to a summation question cannot be correct. [Evaluation]}
+
+\stepcounter{Ecount}
+
+\exsol{A student computes $\displaystyle \sum_{i=4}^{20}i^{2}$ to be $\frac{19(20)(41)}{6}$. Why is this not correct?}{The answer can be reduced in lowest terms to $\frac{19(10)(41)}{3}$ which is not an integer. Since we are adding integers, we need to get an integer answer. Thus the answer cannot be correct.}
+
+\frlea{Convert a summation using a change of variables. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\exsol{Which of the following sums is equivalent to $\displaystyle \sum_{i=7}^{29}(i-1)^{3} + i$?
+\begin{enumerate}
+\item $\displaystyle \sum_{j=1}^{23}(j+5)^{3} + j+5$
+\item $\displaystyle \sum_{j=1}^{22}(j+6)^{3} + j+6$
+\item $\displaystyle \sum_{j=3}^{25}(j+4)^{3} + j+5$
+\item $\displaystyle \sum_{j=10}^{32}(j+2)^{3} + j+3$
+\item $\displaystyle \sum_{j=5}^{27}(j+1)^{3} + j+2$
+\end{enumerate}}{$\displaystyle \sum_{j=5}^{27}(j+1)^{3} + j+2$}
+
+\frlea{Convert expressions to closed forms (that is, a form that is in an easy to put into a calculator form).}
+
+\exsol{Convert $-1 + 2 -3 + 4 - 5 + 6 -... - (2n-1)+2n$ into a closed form.}{$n$}
+
+\frlea{State the definition of a geometric series. [Knowledge]}
+
+\stepcounter{Kcount}
+
+
+\frlea{Compute sums using $\displaystyle \sum_{i=0}^{N}ar^{i} = \frac{a(1-r^{N+1})}{1-r}$ [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \sum_{i=0}^{9}3\cdot 2^{i}$}{3069}
+
+\exsol{Compute $\displaystyle \sum_{i=1}^{9}3 \cdot 2^{i}$}{3066}
+
+\exsol{Compute $\displaystyle \sum_{i=8}^{13}\frac{3 \cdot 5^{i+1}}{2^{2i}}$}{$\frac{15\big(\tfrac{5}{4}\big)^8\big(1-\big(\tfrac{5}{4}\big)^6\big)}{1-\tfrac{5}{4}}$}
+
+\frlea{Compute sums by expanding into standard notation and noticing patterns [Analysis]}
+
+\stepcounter{Ancount}
+
+\exsol{Simplify $\displaystyle \sum_{n=1}^{N}\left(\frac{1}{n} - \frac{1}{n+1} \right)$ as a fraction}{$1-\frac{1}{N+1}$ (Telescoping sum)}
+
+\exsol{Compute $\displaystyle \sum_{n=1}^{50}(-1)^{n}n$}{25}
+
+\frlea{Define a partial sum [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{State what it means for an infinite series to converge [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Compute sums using $\displaystyle \sum_{i=0}^{\infty}ar^{i} = \frac{a}{1-r}$ [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Find the sum of the geometric series $5 - \frac{10}{3} + \frac{20}{9} - \frac{40}{27} + \frac{80}{81} - ...$}{3}
+
+\exsol{Write $2.445353535353...$ as a fraction}{$24209/9900$.}
+
+\exsol{Determine if $\displaystyle \sum_{n=1}^{\infty} \frac{(-3)^{n-1}}{4^{n}}$ converges. If so, compute its value.}{1/7}
+
+
+\exsol{Compute or state it diverges $\displaystyle \sum_{i=0}^{\infty}5\left(\frac{1}{3}\right)^{i}$}{$\frac{15}{2}$}
+
+\exsol{Compute or state it diverges $\displaystyle \sum_{i=0}^{\infty}5\cdot2^{i}$}{This sum diverges.}
+
+\exsol{Compute or state it diverges $\displaystyle \sum_{i=2}^{\infty}3\cdot 2^{-i}$}{$\frac{3}{2}$}
+
+
+\frlea{Use geometric series in biological applications to determine limiting behaviours. [Application]}
+
+\exsol{Compute the maximum and minimum amount of a drug remaining in a patient in the limit (that is, as time tends to infinity) given that the patient takes an 80 milligram dose once a day at the same time each day and the drug has a half life of 22 hours.}{Max: $80/(1-2^{-12/11})$, Min: $80\cdot2^{-12/11}/ (1-2^{-12/11})$}
+
+%simplify(sum(80*(1/2)^(24*d/22),d=0..infinity));
+%simplify(sum(80*(1/2)^(24*d/22),d=1..infinity));
+
+
+\extex{Check out section 1.7 in the notes (page 18) on bifurcating and trifurcating trees.}
+
+\relexam{
+\begin{itemize}
+\item \href{https://wiki.ubc.ca/Category:MER_Tag_Geometric_series}{wiki.ubc.ca/Category:MER Tag Geometric series}
+\item \href{https://wiki.ubc.ca/Category:MER_Tag_Summations}{wiki.ubc.ca/Category:MER Tag Summations}
+\end{itemize}
+}
+
+
+%
+%
+% CHAPTER 2
+%
+%
+
+
+
+\section{Riemann Sums and Integration}
+
+\frlea{Define a Riemann Sum. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Approximate the area under a function using left, right and midpoint rules. Also, identify when an estimate is an overestimate or underestimate.[Analysis]}
+
+\stepcounter{Ancount}
+
+\exsol{Approximate the area under the curve $f(x) = \ln(x)$ between $x=1$ and $x=5$ using the left, right and midpoint rules with $n=4$ intervals (rectangles)}{Left: $\ln(2) + \ln(3) + \ln(4) $
+\vskip1em
+Right: $\ln(2) + \ln(3) + \ln(4) + \ln(5)$
+\vskip1em
+Midpoint: $\ln(1.5) + \ln(2.5) + \ln(3.5) + \ln(4.5)$
+}
+
+\frlea{Define a definite integral. Also, be able to sketch a region as given in a definite integral. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Using Riemann sums, compute the area under a function. Reworded, evaluate a definite integral using the definition of a definite integral. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the area under the curve $y=x^{2}$ between $x=1$ and $x=3$ using Riemann sums (that is, using the definition of a definite integral). \textit{No marks will be given to solutions not using the definition directly.}}{$\frac{26}{3}$}
+
+\exsol{Compute the area under the curve $y=2x^{2}+x$ between $x=0$ and $x=3$ using Riemann sums (that is, using the definition of a definite integral). \textit{No marks will be given to solutions not using the definition directly.}}{$\frac{45}{2}$}
+
+\frlea{Convert between a Riemann sum and a definite integral and vice versa. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\exsol{Write $\displaystyle \lim_{n \to \infty}\sum_{i=1}^{n}\big(\big(\tfrac{2i}{n}\big)^{2}+1\big)\big(\tfrac{2}{n}\big) $ as a definite integral}{$\displaystyle \int_{0}^{2}(x^{2}+1)\,dx$ (there are other answers)}
+
+\exsol{Write $\displaystyle \int_{2}^{5}(e^{x^{2}}+x)\,dx$ as a Riemann sum.}{$\displaystyle \lim_{n \to \infty}\sum_{i=1}^{n}\big(\tfrac{3}{n}\big)\big(e^{(2+3i/n)^{2}}+ (2+3i/n)\big)$}
+
+\exsol{Write $\displaystyle \lim_{n \to \infty}\sum_{i=1}^{n}\big(\frac{\pi}{8n}\big)\tan\big(\frac{i\pi}{40n}\big) $ as a definite integral}{$\displaystyle\int_{0}^{\pi/8}\tan(x/5)\,dx$ (there are other answers)}
+
+\frlea{Compute integrals using high school geometry. That is, recognize an integral as a signed area and compute it. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Evaluate $\displaystyle \int_{-2}^{2}f(x)\,dx$ where $
+f(x) = \begin{cases} 3 & \text{ if } x \leq -1 \\ x & \text{ if } x > -1 \end{cases}
+$
+}{9/2}
+
+\exsol{Evaluate $\displaystyle \int_{-2}^{2}\sqrt{4-x^{2}} + 1\,dx$}{$2\pi + 4$}
+
+\frlea{Compute the area of objects given a defining equation using Riemann sums. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the area of a leaf given by the equation $y^{2} = (x^{2} - 1)^{2}$ for $-1 \leq x \leq 1$ using Riemann sums.}{8/3}
+
+\frlea{State properties of a definite integral and give justification of their truth, including the following; in what follows, let $f(x)$ and $g(x)$ be integrable on $[a,b]$ and let $c$ be a real number:
+\begin{itemize}
+\item Trivial integral $\displaystyle \int_{a}^{a}f(x)\,dx = 0$
+\item Linearity $\displaystyle \int_{a}^{b}(f(x)\pm g(x))\,dx = \int_{a}^{b}f(x)\,dx \pm \int_{a}^{b}g(x)\,dx$ and \newline $\displaystyle \int_{a}^{b}cf(x)\,dx = c\int_{a}^{b}f(x)\,dx$
+\item Area of a rectangle $\displaystyle \int_{a}^{b}c\,dx = c(b-a)$
+\item Switching directions $\displaystyle \int_{a}^{b}f(x)\,dx = -\int_{b}^{a}f(x)\,dx$
+\item Adding parts: If $a \leq c \leq b$, then $\displaystyle \int_{a}^{b}f(x)\,dx = \int_{a}^{c}f(x)\,dx + \int_{c}^{b}f(x)\,dx$
+\item Positivity: If $f(x) \geq 0$ for every value of $x$ between $a$ and $b$, then $\displaystyle \int_{a}^{b}f(z)\,dz \geq 0$
+\item Boundedness: If $h(x) \leq f(x) \leq g(x)$ for every value of $x$ between $a$ and $b$, then $\displaystyle \int_{a}^{b}h(z)\,dz \leq \int_{a}^{b}f(z)\,dz \leq \int_{a}^{b}g(z)\,dz$
+\end{itemize}
+}
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Riemann_sum}{wiki.ubc.ca/Category:MER Tag Riemann sum}
+\item \href{https://wiki.ubc.ca/Category:MER_Tag_Integral_properties}{wiki.ubc.ca/Category:MER Tag Integral properties}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 3
+%
+%
+
+
+\section{Fundamental Theorem of Calculus}
+
+\frlea{Define an integrand, dummy variable and a definite integral. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Define an antiderivative. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{State the Fundamental Theorem of Calculus (parts 1 and 2) [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Calculate integrals using the Fundamental Theorem of Calculus [Analysis]}
+
+\stepcounter{Ancount}
+
+\exsol{Compute $\displaystyle \int_{1}^{2}3x^{2}\,dx$}{7}
+
+\exsol{Compute $\displaystyle \int_{-2}^{2}e^{x} + x^{5}\,dx$}{$e^{2} - e^{-2}$}
+
+\exsol{Compute $\displaystyle \int_{0}^{1}\frac{\,dx}{\sqrt{1-x^{2}}}$}{$\frac{\pi}{2}$}
+
+\frlea{Compute derivatives of functions using the Fundamental Theorem of Calculus (and possibly using the chain rule) [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \frac{d}{dx}\int_{0}^{x}e^{t^{2}}\,dt$}{$e^{x^{2}}$}
+
+\exsol{Compute $\displaystyle \frac{d}{dx}\int_{\sin(x)}^{x^2}t^{t}\,dt$}{$2x(x^{2})^{x^{2}}-\cos(x)(\sin(x))^{\sin(x)}$}
+
+\frlea{Identify when the Fundamental Theorem of Calculus cannot be used. Examples include when a function is undefined on a region, when an integral is over a singularity (point of discontinuity), or when an endpoint has a singularity. Note that later in the course we will discuss a technique that can sometime be used to evaluate such integrals. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\exsol{Compute $\int_{-1}^{1}\frac{1}{x}\,dx$ using the Fundamental Theorem of Calculus or state why this is impossible.}{The function has a discontinuity at $x=0$ and so the Fundamental Theorem of Calculus cannot be used.}
+
+\exsol{Compute $\int_{0}^{\pi}\tan(x)\,dx$ or state why this is impossible.}{This function has a singularity (point of discontinuity) at $\pi/2$ and so cannot be integrated using techniques up to this point.}
+
+\frlea{Verify antiderivatives using differentiation. [Evaluation]}
+
+\stepcounter{Ecount}
+
+\exsol{A student computes an antiderivative of $\sec(x) - \tan(x)\sin(x)$ to be $\tan(x)\cos(x)$. Is the student correct?}{Differentiating $\tan(x)\cos(x)$ gives 
+\[
+\sec^{2}(x)\cos(x) - \tan(x)\sin(x)
+\]
+ which is equivalent to the original function.}
+
+\frlea{Identify use of absolute values in the logarithmic integral. [Knowledge, Evaluation]}
+
+\stepcounter{Kcount}
+\stepcounter{Ecount}
+
+\exsol{A student computes $\displaystyle \int_{-3}^{-1}\frac{1}{x}\,dx$ to be $\ln(-1) - \ln(-3)$. Explain why the answer is incorrect and how to fix it.}{Domains of logarithms are positive real numbers. Correct by recalling that $\displaystyle \int_{-3}^{-1}\frac{1}{x}\,dx = \ln|-1| - \ln|-3|$.}
+
+\frlea{Define even and odd functions and use this property to compute integrals. [Knowledge and Application]}
+
+\stepcounter{Kcount}
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int_{-10}^{10}\sin^{103}(x) \cos^{102}(x^{11})\,dx$}{0}
+
+\frlea{Give an expression for the area function $A(x)$ of a given function $f(t)$ from a fixed endpoint and be able to draw this function. Reworded, be able to sketch the area under a function given a picture of the function. [Knowledge, Analysis]}
+
+\stepcounter{Kcount}
+\stepcounter{Ancount}
+
+\frlea{Compute the area of objects given a defining equation. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the area of a leaf given by the equation $y^{2} = (x^{2} - 1)^{2}$ for $-1 \leq x \leq 1$.}{8/3}
+
+
+
+\stepcounter{Apcount}
+
+\frlea{Calculate the area between two curves [Analysis]}
+
+\stepcounter{Ancount}
+
+\exsol{Compute the area between $y=x^{2}$ and $y = x^{3}$.}{$1/12$}
+
+\exsol{Compute the area of the region bounded by $y=2x^{2}+10$ and $y = 4x + 16$}{$64/3$}
+
+\exsol{Compute the area of the region bounded by $y=x-2$ and $y^{2}=x$.}{$9/2$}
+
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Fundamental_theorem_of_calculus}{wiki.ubc.ca/Category:MER Tag Fundamental theorem of calculus}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Integration_using_symmetry}{wiki.ubc.ca/Category:MER Tag Integration using symmetry}
+\item
+\href{https://wiki.ubc.ca/Category:MER_Tag_Antiderivative_sketching}{wiki.ubc.ca/Category:MER Tag Antiderivative sketching}
+\item
+\href{https://wiki.ubc.ca/Category:MER_Tag_Area_between_two_curves}{wiki.ubc.ca/Category:MER Tag Area between two curves}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 4
+%
+%
+
+
+
+\section{Applications of Integrals (primarily to velocities and rates)}
+
+\frlea{Define distance, displacement, velocity and acceleration and explain the relationship between these values using derivatives and integrals. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Compute the solution to the differential equation $\frac{dv}{dt} = g-kv$ where $g=9.8m/s^{2}$ is the acceleration due to gravity and $k$ is the drag coefficient and describe its terminal velocity (including the case when $k=0$ and $g$ is an arbitrary acceleration). [Knowledge, Application]}
+
+\frlea{Describe the difference between distance and displacement and know how to compute both given a velocity function (or an acceleration function). [Comprehension, Application]}
+
+\stepcounter{Ccount}
+\stepcounter{Apcount}
+
+\exsol{Compute the velocity as a function of time given the acceleration function $a(t) = t + 4$ and $v(0) = 5$}{$v(t) = t^2/2 + 4t + 5$}
+
+\exsol{Compute the displacement and the total distance traveled of a particle given that its velocity at time $t$ is given by $v(t) = 2t^{2}-10t + 8$ from $t=1$ to $t=4$}{Displacement $-9$ and the distance traveled $9$ (integrate $|v(t)|$).}
+
+\exsol{Compute the displacement and the total distance traveled of a particle given that its velocity at time $t$ is given by $v(t) = t^{2}-t-6$ from $t=1$ to $t=4$}{Displacement $-9/2$ and the distance traveled $61/6$ (integrate $|v(t)|$).}
+
+\frlea{Understand how rates of changes of functions relate to the original function. This is referred to as the net change theorem. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\exsol{A tree grows at a rate of $g(t) = 10 + 15t^2$ cm/year. How tall is the tree after 10 years?}{5100}
+
+\exsol{The rate of change of a cup of tea is given by $f(t) = 50e^{-2t}$ degrees Celsius per minute. Compute the total change in temperature of the coffee between $t=1$ and $t=5$.}{$25/e^{2}-25/e^{10}$}
+
+\extex{For more examples, see 4.3, 4.4 and 4.6 in your notes (pages 72-85).}
+
+\frlea{State the formula for average value. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Compute average values of functions on bounded domains. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Find the average value of $f(x) = \sin(x)$ on $[-\tfrac{\pi}{2},\tfrac{\pi}{2}]$.}{0}
+
+
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Average_value}{wiki.ubc.ca/Category:MER Tag Average value}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Net_change_theorem}{wiki.ubc.ca/Category:MER Tag Net change theorem}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 5
+%
+%
+
+
+
+
+\section{Applications of integrals to volume, mass and length}
+
+\rednote{In this year's offering of MATH 103, we are not cover the shell method in this course.}
+
+
+\frlea{State formulas for the mass of an object given a density function, the centre of mass of a one dimensional object. [Knowledge]}
+
+\stepcounter{Kcount}
+
+%PAGE 92 IN MY NOTES HAS MORE!!!
+
+\frlea{Compute densities and centre of mass of a one dimensional object [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the mass, centre of mass and average mass of a bar of length 10 cm and whose density is linear with distance given by $\rho(x) = 3x$.}{Mass is $150$, average mass is $15$, centre of mass is $20/3$.}
+
+%\section{Volumes of Revolution}
+
+\frlea{Understand the difference between average mass and the point where a one dimensional object can be split to get two parts of equal mass. [Comprehension, Evaluation]}
+
+\exsol{For a bar of length 10cm, given the density function $\rho(x) = 3x$, compute the point where the bar is split into two equal masses and compute the average mass.}{Average mass is $15$. Point to cut the bar in half to get two pieces of equal mass is $x = 5\sqrt{2}$.}
+
+\stepcounter{Ccount}
+\stepcounter{Ecount}
+
+
+\frlea{State the formulas for volumes of revolution of the region between two curves rotated about the $x$-axis and the $y$-axis. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Compute the volume of revolution of a region around lines of the form $x=a$ and $y=b$ where $a$ and $b$ are given real numbers. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the curves $y=2x^{@}$ and $y=x^{3}$ about the $x$-axis.}{$\int_{0}^{2}\pi(4x^{4}-x^{6})\,dx = \frac{256 \pi}{35}$}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the $y$-axis, the line $y=a$ for a given constant $a$ and $y = \sqrt{x}$ about the $x$-axis.}{$\displaystyle \int_{0}^{a^{2}}\pi(a^2-x)\,dx = a^{4}\pi/2$}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the curves $y=x^{2}$ and $y=x$ about the line $x=-2$.}{$5\pi/6$}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the curves $y=x^{2}$, $x=1$ and $y=0$ about the line $y=1$.}{$7\pi/15$}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the curves $y=x^{2}$, $x=1$ and $y=0$ about the line $x=1$.}{$\pi/6$}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the $x$-axis and $y = x^{2}-1$ about the $x$-axis.}{$\displaystyle \int_{-1}^{1}\pi(x^2-1)^2\,dx = 16\pi/15$}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the $x$-axis and $y = x^{2}-1$ about the $y$-axis.}{$\displaystyle \int_{-1}^{0}\pi(\sqrt{y+1})^2\,dy = \pi/2$}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the $x$-axis and $y = x^{2}-1$ about the line $y=-1$.}{$\displaystyle \int_{-1}^{1}\pi(1^2 - (x^2-1+1)^2)\,dx = 8\pi/5$}
+
+\exsol{Compute the volume of revolution of the solid described by revolving the region between the $x$-axis and $y = x^{2}-1$ about the line $x=-1$.}{$\displaystyle \int_{-1}^{0}\pi((\sqrt{y+1}+1)^2 - (1-\sqrt{y+1})^2)\,dy = 8\pi/3$}
+
+
+\frlea{State the formula for computing the arc length of a function. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Compute the arc length of an object. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Find the arc length of $y = \int_{1}^{x}\sqrt{t-1}\,dt$ between $x=1$ and $x=4$.}{$14/3$}
+
+\exsol{Find the arc length of $y = \frac{x^{3}}{3} + \frac{1}{4x}$ between $x=1$ and $x=2$.}{$59/24$}
+
+\exsol{Find the arc length of $y = 1 + 6x^{3/2}$ between $x=0$ and $x=1$.}{$-2/243 + 164/(243\sqrt{82})$}
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Center_of_mass}{wiki.ubc.ca/Category:MER Tag Center of mass}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Solid_of_revolution}{wiki.ubc.ca/Category:MER Tag Solid of revolution}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Arc_length}{wiki.ubc.ca/Category:MER Tag Arc length}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Mass}{wiki.ubc.ca/Category:MER Tag Mass}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 6
+%
+%
+
+
+
+\section{Integration Techniques}
+
+\rednote{We will not need to know long division to solve our integrals. Polynomials in the denominator will either by quadratic or easily factorable cubics.}
+
+
+\frlea{Understand the interpretation of $\frac{dy}{dx}$ via the perspective of differentials. [Comprehension]}
+
+\frlea{Explain the difference between definite and indefinite integrals (for example, explain why the latter has an arbitrary constant in their solution). [Evaluation]}
+
+\stepcounter{Ecount}
+
+\frlea{State the substitution rule for indefinite integrals. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{State the substitution rule for definite integrals. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Using the substitution rule, compute definite and indefinite integrals. [Application]}
+
+\stepcounter{Apcount}
+
+%Page 85 in my notes...
+
+\exsol{Compute $\displaystyle \int (x+1)^{102}\,dx$.}{$(x+1)^{103}/103 + C$}
+
+\exsol{Compute $\displaystyle \int_{0}^{\pi} \sin(x)(\cos(x))^{2}\,dx$.}{$2/3$}
+
+\exsol{Compute $\displaystyle \int x\sqrt{x+7}\,dx$}{$2(x+7)^{3/2}(3x-14)/15$}
+
+\frlea{Using the substitution rule, compute definite and indefinite integrals using a multiplication by one technique. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int \sec(x)\,dx$}{$\ln|\sec(x) + \tan(x)| + C$}
+
+\exsol{Compute $\displaystyle \int \csc(x)\,dx$ (Hint: multiply top and bottom by $-(\csc(x)\cot(x))$ and recall that $\tfrac{d}{dx}\csc(x) = -\csc(x)\cot(x)$ and $\tfrac{d}{dx}\cot(x) = -\csc(x)^2$)}{$-\ln|\csc(x) + \cot(x)| + C$}
+
+\frlea{Using the substitution rule, compute definite and indefinite integrals by first factoring a perfect square in the denominator. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int \frac{dx}{4x^{2} - 12x + 9}$ and $\displaystyle \int_{0}^{1} \frac{dx}{4x^{2} - 12x + 9}$}{$-1/(2(2x-3))+C$ and $1/3$}
+
+\frlea{Using the substitution rule, compute definite and indefinite integrals by first completing the square in the denominator. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int \frac{dx}{x^2 + 10x + 50}$}{$\arctan((x+5)/5)/5+C$}
+
+\frlea{State formulas for the centroid (centre of mass) of an object of uniform density of a two dimensional object. [Knowledge]}
+
+\stepcounter{Kcount}
+
+%This goal was removed in the 2014 offering. The feeling was that this course is big enough and this topic isn't as vital for Math 103 students as say Math 101 students
+
+%\frlea{Compute the centre of mass (centroid) of an object of uniform density of a two dimensional object. [Application]}
+
+%\stepcounter{Apcount}
+
+%\exsol{Compute the centre of mass of an object of uniform density modeled by $f(x) = \sqrt{16-x^{2}}$ between $x=0$ and $x=4$.}{$(\bar{x},\bar{y}) = (16/(3\pi),16/(3\pi))$}
+
+
+\frlea{Using the substitution rule, compute definite and indefinite integrals of powers of $\sin(x)$ and $\cos(x)$ in the case when the powers are either odd or even and positive given certain formulas. See the introduction for given formulas. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int \sin^{2}(x)\,dx$}{$x/2 - \sin(2x)/4 + C$}
+
+\exsol{Compute $\displaystyle \int \sin(x)\cos^{3}(x)\,dx$}{$- \cos^{4}(x)/4 + C$}
+
+\exsol{Compute $\displaystyle \int \cos^{3}(x)\,dx$}{$\sin(x) - \sin^{3}(x)/3 + C$}
+
+\exsol{Compute $\displaystyle \int \frac{\cos^{3}(x)\,dx}{\sin(x)}$}{$\ln|\sin(x)| - \frac{\sin^{2}(x)}{2} + C$}
+
+\frlea{Using the substitution rule, compute definite and indefinite integrals of powers of $\tan(x)$ and $\sec(x)$ in the case when the power of $\tan(x)$ is odd or when the power of $\sec(x)$ is even and both of the degrees are nonzero (an exception is when the integral is just $\sec(x)$). See the introduction for given formulas. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int \sec(x)\,dx$}{$\ln|\sec(x) + \tan(x)| + C$}
+
+\exsol{Compute $\displaystyle \int \tan(x)\,dx$}{$-\ln|\cos(x)| + C$ or $\ln|\sec(x)| + C$}
+
+\exsol{Compute $\displaystyle \int \sec(x)\tan^{3}(x)\,dx$}{$\sec^{3}(x)/3 - \sec(x) + C$}
+
+\exsol{Compute $\displaystyle \int \sec^{2}(x) \tan^{2}(x)\,dx$}{$\tan^{3}(x)/3 + C$}
+
+\frlea{Using the method of trigonometric substitution, solve integrals, both definite and indefinite, of rational functions and radicals (polynomials divided by polynomials and possibly multiplied by square roots) and solve. Techniques of completing the square might also be required. [Comprehension, Application]}
+
+\stepcounter{Ccount}
+\stepcounter{Apcount}
+
+\exsol{Compute $\int_{1/2}^{1}\frac{dx}{\sqrt{2x-x^{2}}}$}{$\pi/6$}
+
+\exsol{Compute $\int\frac{\sqrt{9-x^{2}} }{x^{2}}\,dx$}{$-\frac{\sqrt{9-x^{2}}}{x} - \arcsin(x/3) +C$}
+
+\exsol{Compute $\int\frac{dx}{x^{2}\sqrt{x^{2}+4}}$}{$-\frac{\sqrt{x^{2}+4}}{4x}+C$}
+
+\exsol{Compute $\int \frac{\sqrt{x^{2}-9}}{x^{3}}\,dx$}{$\textnormal{arcsec}(x/3)/6 - \sqrt{x^{2}-9}/(2x^{2}) + C$}
+
+\frlea{Using the method of partial fractions, compute integrals of rational functions (polynomials divided by polynomials) where the degree of the numerator is less than the degree of the denominator and the degree of the denominator is at most two. [Comprehension, Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\int_{0}^{1}\frac{x-1}{x^{2}+3x+2}\,dx$}{$3 \ln 3 - 5\ln 2$}
+
+\exsol{Compute $\int_{0}^{1}\frac{2x+3}{x^{2}+2x+1}\,dx$}{$2 \ln 2 - 1/2$}
+
+\exsol{Compute $\int\frac{dx}{x\sqrt{x+1}}$}{$\ln|\sqrt{x+1}-1| - \ln|\sqrt{x+1}+1| + C$}
+
+
+\frlea{Using integration by parts (possibly multiple times or in conjunction with other methods), compute definite and indefinite integrals. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int_{1}^{\ln(2)} xe^{x}\,dx$}{$\ln(4)-2$}
+
+\exsol{Compute $\displaystyle \int x\ln(x)\,dx$}{$x^{2}\ln(x)^{2}/2 -x^{2}/4 + C$}
+
+\exsol{Compute $\displaystyle \int \ln(x)\,dx$}{$x\ln(x)-x + C$}
+
+\exsol{Compute $\displaystyle \int \ln(x)/x\,dx$}{$\ln(x)^{2}/2 + C$ (you probably want to use a substitution here!)}
+
+\exsol{Compute $\displaystyle \int x^2\cos(x)\,dx$}{$x^{2}\sin(x) - 2\sin(x) + 2x\cos(x) + C$}
+
+\exsol{Compute $\displaystyle \int x\sin(2x+3)\,dx$}{$\sin(2x+3)/4 - (2x+3)\cos(2x+3)/4 + 3\cos(2x+3)/4 + C$}
+
+\frlea{Compute integrals using integration by parts where the integral cycles. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int e^{x}\sin(x)\,dx$}{$-e^{x}\cos(x)/2+e^{x}\sin(x)/2 + C$.}
+
+
+\frlea{Identify which of the above techniques is appropriate and compute integrals using a method of choice. [Comprehension, Application]}
+
+\stepcounter{Ccount}
+\stepcounter{Apcount}
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Substitution}{wiki.ubc.ca/Category:MER Tag Substitution}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Integration_by_parts}{wiki.ubc.ca/Category:MER Tag Integration by parts}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Trigonometric_integral}{wiki.ubc.ca/Category:MER Tag Trigonometric integral}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Trigonometric_substitution}{wiki.ubc.ca/Category:MER Tag Trigonometric substitution}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Partial_fractions}{wiki.ubc.ca/Category:MER Tag Partial fractions}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Integrals_that_cycle}{wiki.ubc.ca/Category:MER Tag Integrals that cycle}
+%\item \href{http://wiki.ubc.ca/Category:MER_Tag_Centroid}{wiki.ubc.ca/Category:MER Tag Centroid}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 7
+%
+%
+
+
+\section{Improper Integrals}
+
+\rednote{ Annuities are not covered in this year's offering of MATH 103.}
+
+\frlea{Describe the two types of improper integrals discussed in this course. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Show divergence of integrals for improper integrals even if not prompted that the integral is improper. [Application, Evaluation, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Ecount}
+\stepcounter{Pcount}
+
+\exsol{Compute $\displaystyle \int_{-1}^{1} \frac{1}{x^{2}}\,dx$.}{This integral is improper (there is a discontinuity at 0) and also the integral diverges (don't forget to show your work!).}
+
+\frlea{Compute improper integrals when they exist (using proper notation, that is, breaking into one sided limits as necessary). [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \int_{0}^{\infty}e^{-4x}\,dx$}{1/4}
+
+\exsol{Compute $\displaystyle \int_{1}^{\infty}\frac{1}{x^{e}}\,dx$}{$1/(e-1)$.}
+
+\exsol{Compute $\displaystyle \int_{-1}^{0}\frac{e^{1/x}}{x^{3}}\,dx$}{$-2/e$.}
+
+%Removed
+
+%\frlea{Compute annuities given a principal amount, interest rate and when the interest is compounded. [Application]}
+
+%\stepcounter{Apcount}
+
+\frlea{State the integral comparison test. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Use the integral comparison test to show that an integral converges. [Proof]}
+
+\stepcounter{Pcount}
+
+\exsol{Show that the following integral is convergent $\int_{0}^{\infty}\frac{x}{x^{3}+1}\,dx$}{Briefly, $\int_{0}^{\infty}\frac{x}{x^{3}+1}\,dx < \int_{0}^{\infty}\frac{1}{x^{2}}\,dx $ which converges (you will need to justify these claims on an exam for full marks).}
+
+\frlea{State l'Hopital's rule. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Use l'Hopital's rule to compute limits of functions. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\displaystyle \lim_{x \to \infty}\frac{\ln(x)}{x}$}{0}
+
+\exsol{Compute $\displaystyle \lim_{x \to \infty}\frac{e^{x}}{x^{2}}$}{$\infty$}
+
+\exsol{Compute $\displaystyle \lim_{x \to \infty}\frac{\ln\ln x}{\ln x}$}{0}
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Improper_integral}{wiki.ubc.ca/Category:MER Tag Improper integral}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Integral_comparison_test}{wiki.ubc.ca/Category:MER Tag Integral comparison test}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_L'Hopital's_rule}{wiki.ubc.ca/Category:MER Tag L'Hopital's rule}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 8
+%
+%
+
+
+\section{Continuous Probability Distributions}
+
+\rednote{ NOTE: Math 102 did not do discrete probability this term}
+
+
+\frlea{Define a probability density function. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Define a cumulative distribution function. [Knowledge]}
+
+\stepcounter{Kcount}
+ 
+\frlea{Normalize functions so that they become probability density functions. [Comprehension, Application]}
+
+\stepcounter{Ccount}
+\stepcounter{Apcount}
+
+\exsol{Normalize $f(x) = \cos(\pi x/6)+2 $ on $0 \leq x \leq 9$ so that it is a probability density function.}{$\pi( \cos(\pi x/6)+2)/(-6+18\pi) $}
+
+\frlea{Given a probability density function, compute a cumulative distribution function and vice versa. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{In the previous example, compute the cumulative distribution function of the associated probability density function.}{$(3\sin(\pi x/6)+\pi x)/(-3+9\pi)$}
+
+\frlea{Given a probability density function or a cumulative density function, compute the probability that a random variable takes on a value between $a$ and $b$. [Analysis]}
+
+\stepcounter{Ancount}
+%ie F(b)-F(a) where F is the cdf OR \int_{a}^{b}p(x)\,dx
+\exsol{Let $p(x) = x/2$ be a probability density function defined on $[0,2]$. Compute the probability that $0.5 \leq x \leq 1.5$. }{1/2}
+
+\frlea{Define the median and the mean, also known as the average or expected value, of a probability density function. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Compute the median $x$ value and the mean of a probability density function. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the mean and median of $f(t) = 5e^{-5t}$ given that this function defines a probability density function on $[0, \infty)$.}{Mean: $1/5$. Median: $(\ln 2)/5$.}
+
+\frlea{Graphically understand the difference in position of the mean, median, variance and standard deviation in graphs of probability distribution functions. [Comprehension]}
+
+\extex{See question 1.(b) on the Math 103 \href{http://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH103/April_2011/Question_1_(b)}{exam from 2011}}
+
+\extex{See also Section 8.3.2 on page 162 of the course notes.}
+
+\stepcounter{Ccount}
+
+\frlea{Solve problems requiring the above techniques in an applied setting. [Application]}
+
+\stepcounter{Apcount}
+
+\frlea{Explain how change of variables affects probability density functions and cumulative density functions. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\extex{Raindrops in section 8.4 of your notes}
+
+\extex{See question 6 parts a through c on the Math 103 
+\href{http://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH103/April_2013/Question_06_(a)}{exam from 2013}}
+
+\exsol{Suppose there is a mysterious fish species in the sea, where for each fish in the species its weight $w$ in grams follows the probability density function 
+\[ p(w) = \frac{2}{\sqrt{\pi}} e^{-w^2}\]
+where $0\le w  < \infty$ (there is no limit for the maximum weight). For some mysterious reason , each fish has a concentration of radioactive material. Suppose that the amount of radioactive material $m$ (in micro milligrams) in each fish in this species depends on the weight $w$ of the fish as $m = \ln (1+w)$.
+Find the probability density function of $m$.}{$q(m) \frac{2}{\sqrt{\pi}} e^{m-(e^m-1)2}$}
+
+\frlea{Define the $n$-th moment (for $n=0,1,2$), variance and standard deviation. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Describe how the formulas $V = M_{2} - \mu^{2}$ and $V = \int_{a}^{b}(x-\mu)^{2}p(x)\,dx$ are related. [Proof]}
+
+\stepcounter{Pcount}
+
+\frlea{Compute the $n$-th moment (for $n=0,1,2$), variance and standard deviation of a given probability density function. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the $n$-th moment for $n=0,1,2$, variance and standard deviation of $f(t) = e^{-t}$ given that this function defines a probability density function on $[0, \infty)$.}{The $n$-th moments are $1,2,4$ for $n=0,1,2$ (for a bonus problem, show that the $n$-th moment is $n!$ for any $n$. Variance is $1$ and so is the standard deviation.}
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Probability_density_function}{wiki.ubc.ca/Category:MER Tag Probability density function}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Standard_deviation_(continuous)}{wiki.ubc.ca/Category:MER Tag Standard deviation (continuous)}
+\item \href{https://wiki.ubc.ca/Category:MER_Tag_Mean_(continuous)}{wiki.ubc.ca/Category:MER Tag Mean (continuous)}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Median_(continuous)}{wiki.ubc.ca/Category:MER Tag Median (continuous)}
+\item \href{https://wiki.ubc.ca/Category:MER_Tag_Cumulative_distribution_function}{wiki.ubc.ca/Category:MER Tag Cumulative distribution function}
+\end{itemize}
+}
+
+
+%
+%
+% CHAPTER 9
+%
+%
+
+
+
+\section{Differential Equations}
+
+\frlea{Define what a differential equation is. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Solve a (first order) differential equation using separation of variables. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Solve $\frac{dy}{dt} = ky$}{$y = Ce^{kt}$}
+
+\exsol{Solve $\frac{dy}{dt} = \frac{y}{t}$}{$y = kt$}
+
+%http://www.reading.ac.uk/AcaDepts/sp/PPLATO/imp/h-tutorials/ode_02_sepvars.pdf 
+%Has more examples.
+
+
+\frlea{Solve an initial value problem using separation of variables. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Solve $\frac{dy}{dt} = ky^{2}$ subject to $y(0) = 7$ and $y(1) = -14/5$}{$y = \frac{14}{2 - 7t^{2}}$}
+
+\exsol{Solve $\frac{dy}{dt} = 3t^{2}e^{-y}$ subject to $y(0) = 1$}{$y = \ln(t^{3}+e)$}
+
+
+\frlea{Define a steady state. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Compute steady states (equilibria) of differential equations. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Find the steady states of $\frac{dy}{dx} = y^{2} + 3y + 2$}{$y=-1,-2$}
+
+
+\frlea{Given a graph of a derivative, be able to interpret the information and make inferences about the original function. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\extex{Check out question 5 (b) from the Math 103 \href{http://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH103/April_2013/Question_05_(b)}{exam from 2013.}}
+
+\frlea{Construct differential equations from a given scenario and solve for their solution (ie understanding that rates of changed are measured by rate in minus rate out). [Application]}
+
+\stepcounter{Apcount}
+
+\extex{Blood alcohol and chemical kinetics found on page 187-190 in section 9.4 of your notes}
+
+\extex{Torricelli's law as stated on page 190 and 191 of the course notes (section 9.5)}
+
+\exsol{Mixing problem. A tank contains 20kg of salt dissolved in 5000L of water. Brine that contains 0.03kg or salt per litre enters the tank at a rate of 25L/min. The solution is kept thoroughly mixed and drains out at the same rate. How much salt remains in the tank after half an hour?}{$150 - 130e^{-3/20}$}
+
+\extex{Here is an example from the Math 102 differential calculus exam from  \href{http://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH102/December_2012/Question_C_4_(a)}{December 2012 Question C4a.}}
+
+\frlea{Describe the logistic equation and explain why it is a better model than the naive population growth model $\frac{dy}{dx} = ky$. [Knowledge, Evaluation]}
+
+\stepcounter{Kcount}
+\stepcounter{Ecount}
+
+
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Differential_equation}{wiki.ubc.ca/Category:MER Tag Differential equation}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Separation_of_variables}{wiki.ubc.ca/Category:MER Tag Separation of variables}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Initial_value_problem}{wiki.ubc.ca/Category:MER Tag Initial value problem}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Steady_states}{wiki.ubc.ca/Category:MER Tag Steady states}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 10
+%
+%
+
+
+\section{Sequences}
+
+\rednote{An understanding of the formal definition of a limit of a sequence is not strictly required.}
+
+\frlea{Define a sequence (in the context of this course). Also, define the head and tail of a sequence. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\extex{A good exercise is to take the idea of Newton's method from the previous term and put it in the context of sequences.}
+
+\frlea{Compute the first terms of a sequence given a formula (including recursive formulas) or given the first few terms. [Comprehension]}
+
+\stepcounter{Ccount}
+
+
+\frlea{Be able to manipulate sequences and demonstrate an understanding of the sequence notation. Give examples of sequences, including the harmonic sequence and the Fibonacci sequence. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Understand and define what it means for a sequence to converge (formal definition not required but a working understanding is required). [Knowledge, Comprehension]}
+
+\stepcounter{Kcount}
+\stepcounter{Ccount}
+
+\frlea{Define what it means for a sequence to be bounded above, bounded below, bounded, monotonic, increasing, decreasing, non-increasing and non-decreasing. [Knowledge]}
+
+\stepcounter{Kcount}
+
+%Removed from the syllabus in 2014 for ease.
+
+%\frlea{State the monotone convergence theorem and give examples of sequences that are bounded and do not converge. [Knowledge]}
+
+%\stepcounter{Kcount}
+
+\frlea{Understand the sentence ``the head of a sequence does not determine convergence''. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\frlea{Compute the convergence of sequences both formally and using known facts about growth rates of functions. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Determine the convergence of $\left( \frac{k!}{k^{k}}\right)_{k \geq 0}$. If it converges, compute the limit.}{0 since $k! \ll k^{k}$ (this is sufficient justification in this case).}
+
+\exsol{Determine the convergence of $(1,1,1,1,...)$. If it converges, compute the limit.}{Converges to 1}
+
+\exsol{Determine the convergence of $(1,1/2,1/3,1/4,...)$. If it converges, compute the limit.}{Converges to 0}
+
+\exsol{Determine the convergence of $\left( \frac{k}{\ln(k)^{102}}\right)_{k \geq 0}$. If it converges, compute the limit.}{Diverges since $k \gg \ln(k)^{102}$.}
+
+\frlea{Use $a_{n} = e^{\ln a_{n}}$ to compute limits. [Application]}
+
+\stepcounter{Apcount}
+
+
+\exsol{Determine if the sequence defined by  $a_{n} = \left(1 + \frac{1}{n}\right)^{n}$ converges and if so compute the limit.}{Converges to $e$.}
+
+\frlea{State l'Hopital's rule (for sequences). [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Use l'Hopital's rule to compute limits of sequences. [Application]}
+
+\stepcounter{Apcount}
+
+\extex{See the section on improper integrals in this file for some examples.}
+
+\frlea{State the squeeze theorem. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Use the squeeze theorem to compute limits. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute if the sequence $\{\frac{\sin(n)}{n}\}_{n=1}^{\infty}$ converges.}{Yes converges to 0.}
+
+\frlea{Use the fact that if $f(x)$ is a continuous real valued function and $\lim_{k \to \infty}a_{k}$ exists, then $\lim_{k \to \infty}f(a_{k}) =  f(\lim_{k \to \infty}a_{k})$. Recognize examples where this fails but we still have a limit. [Application] }
+
+\exsol{Compute if the sequence $\{\frac{\sin(1/n)}{(1/n)}\}_{n=1}^{\infty}$ converges.}{Yes converges to 1 (think of this as a function and recognize this as the derivative of $\sin(x)$ after substituting $x = 1/n$ or use l'Hopital's rule.}
+
+\exsol{Compute if the sequence $\{\sin(n\pi)\}_{n=1}^{\infty}$ converges.}{Yes converges to 0 (this is a constant sequence!)}
+
+\stepcounter{Apcount}
+
+
+\frlea{Explain the process of cobwebbing and that the process computes. [Evaluation]}
+
+\stepcounter{Ecount}
+
+\frlea{Compute examples of a cobwebbing both numerically and graphically given a function, an initial point and a number of iterations. [Application]}
+
+\stepcounter{Apcount}
+
+\extex{See the 2013 exam, question 5 part (a) on \href{http://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH103/April_2013/Question_05_(a)}{cobwebbing.}}
+
+\frlea{Discuss and compute the fixed points (or equilibria or steady states) of a [recursive] sequence and be able to distinguish this from the steady states of a differential equation. [Comprehension, Application, Evaluation]}
+
+\stepcounter{Apcount}
+\stepcounter{Ccount}
+\stepcounter{Ecount}
+
+\extex{See the 2013 exam question 5 problems (a) and (b) on \href{http://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH103/April_2013/Question_05_(a)}{steady states.}}
+
+\frlea{Define what it means for fixed points of a recurrence sequence to be stable or unstable both analytically and graphically. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Classify fixed points as stable or unstable. [Comprehension]}
+
+\stepcounter{Ccount}
+
+\extex{See the examples on the difference equation and logistic maps in section 10.7-10.8 (pages 221-227) in the notes.}
+
+\frlea{Compare the logistic map to the logistic differential equation and evaluate their similarities and differences. [Evaluation]}
+
+\stepcounter{Ecount}
+
+
+%Difference equation is basically our basic population growth model.
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Sequences}{wiki.ubc.ca/Category:MER Tag Sequences}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Steady_states_(sequences)}{wiki.ubc.ca/Category:MER Tag Steady states (sequences)}
+\item \href{https://wiki.ubc.ca/Category:MER_Tag_Cobwebbing}{wiki.ubc.ca/Category:MER Tag Cobwebbing}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 11
+%
+%
+
+
+
+\section{Series}
+
+\rednote{In this year's offering of MATH 103, we are not covering the limit comparison test nor alternating series (or their associated tests). Also, conditional convergence is gone and absolute convergence is deemphasized. Be careful when solving problems that you avoid these topics.}
+
+\frlea{Define a series (in the context of this course). [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Define a partial sum. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{State what it means for an infinite series to converge. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{State the harmonic series and justify why it diverges. [Knowledge, Evaluation]}
+
+\stepcounter{Kcount}
+\stepcounter{Ecount}
+
+\frlea{Give conditions for an infinite geometric series to converge and evaluate such series. [Knowledge]}
+
+\extex{Refer to chapter 1 in this document for practice exercises.}
+
+\stepcounter{Kcount}
+
+\frlea{Use telescoping series to evaluate infinite series (you will likely need to apply a partial fractions technique as well). [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute $\sum_{n=2}^{\infty} \frac{2}{n^{2}-1}$}{$3/2$}
+
+\exsol{Compute $\sum_{n=1}^{\infty} \frac{3}{n(n+3)}$}{$11/6$}
+
+\frlea{State the divergence test. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Know examples of sequences $\{a_{n}\}_{n=1}^{\infty}$ where $a_{n}$ converges to $0$ but $\displaystyle \sum_{n=1}^{\infty}a_{n}$ still diverges. [Knowledge, Comprehension]}
+
+\stepcounter{Kcount}
+\stepcounter{Ccount}
+
+
+\frlea{Apply the divergence test to show a series diverges. [Application, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Pcount}
+
+\exsol{Determine if $\sum_{n=1}^{\infty}\frac{e^{n}}{n^{2}}$ converges.}{Diverges by the divergence test.}
+
+\exsol{Determine if $\sum_{n=1}^{\infty}\frac{n(n+2)}{n^{2}+3}$ converges.}{Diverges by the divergence test.}
+
+\frlea{State the integral test. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Apply the integral test to show a series converges or diverges. [Application, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Pcount}
+
+\exsol{Determine if $\displaystyle \sum_{n=2}^{\infty}\frac{1}{n\ln n}$ converges.}{Diverges}
+
+\exsol{Determine if $\displaystyle  \sum_{n=1}^{\infty}\frac{1}{n^{2}+9}$ converges.}{Converges}
+
+\exsol{Determine for which values of $p$ does the sum $\displaystyle  \sum_{n=2}^{\infty}\frac{1}{n(\ln n)^{p}}$ converge.}{$p > 1$}
+
+\frlea{State the $p$-series test. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Apply the $p$-series test to show a series converges or diverges. [Application, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Pcount}
+
+\exsol{Determine if $\displaystyle  \sum_{n=1}^{\infty}\frac{1}{n^{1.000000001}}$ converges.}{Converges}
+
+\frlea{State the comparison test. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Apply the comparison test to show a series converges or diverges. [Application, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Pcount}
+
+\exsol{Determine if $\displaystyle  \sum_{n=1}^{\infty}\frac{n^{4}}{n^{7}+9}$ converges.}{Converges}
+
+\frlea{State the absolute comparison test. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Apply the absolute comparison test to show a series converges or diverges. [Application, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Pcount}
+
+\exsol{Determine if $\displaystyle  \sum_{n=1}^{\infty}\frac{n^{4}}{n^{7}+9}$ converges.}{Converges}
+
+\frlea{Describe what the notation $n!$ means for a nonnegative integer $n$. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{State the ratio test. [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Apply the ratio test to show a series converges or diverges. [Application, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Pcount}
+
+\exsol{Determine if $\displaystyle  \sum_{n=1}^{\infty}\frac{n^{2} 2^{n}}{n!}$ converges.}{Converges}
+
+
+\frlea{Determine the convergence of a series by using one of the previous tests (without prompt). [Application, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Pcount}
+
+\exsol{Determine which of the following series converge or diverge.
+\begin{enumerate}
+\item $\displaystyle  \sum_{n=2}^{\infty} \frac{1}{n \ln n}$.
+\item $\displaystyle  \sum_{n=1}^{\infty} \arctan(n)$
+\item $\displaystyle  \sum_{n=1}^{\infty} \frac{n^{2}-1}{3n^{4}+1}$
+\item $\displaystyle  \sum_{n=1}^{\infty} \frac{(-1)^{n}}{n^{4}}$
+\item $\displaystyle  \sum_{n=3}^{\infty} \frac{n!}{2^{n}}$
+\item $\displaystyle  \sum_{n=3}^{\infty} \frac{n^{3}-1}{n^{3} + 1}$
+\item $\displaystyle  \sum_{n=4}^{\infty} \frac{1}{\sqrt{n^{2}+1}}$
+\end{enumerate}
+}{Diverges (integral test), diverges (divergence test), converges (comparison + $p$-series test), converges (absolute + $p$-series test), diverges (ratio test), diverges (divergence test), diverges (comparison + $p$-series test).}
+
+\frlea{Apply the ratio test to show the interval of convergence for a power series. [Application, Proof]}
+
+\stepcounter{Apcount}
+\stepcounter{Pcount}
+
+\exsol{Find the interval of convergence for $\displaystyle  \sum_{n=3}^{\infty}\frac{n(x+2)^{n}}{3^{n+1}}$.}{$-5 < x < 1$.}
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Series}{wiki.ubc.ca/Category:MER Tag Series}
+\item \href{https://wiki.ubc.ca/Category:MER_Tag_Power_series}{wiki.ubc.ca/Category:MER Tag Power series}
+\end{itemize}
+}
+
+%
+%
+% CHAPTER 12
+%
+%
+
+
+
+\section{Taylor Series}
+
+\rednote{In this year's offering of MATH 103, we are not doing problems with estimations involved while using Taylor series.}
+
+
+\frlea{Define the $n$th degree Taylor polynomial and the Taylor series of a function $f(x)$ centred at a point $x=a$ (typically $a$, our centre, will be $0$). [Knowledge]}
+
+\stepcounter{Kcount}
+
+\frlea{Explain what Taylor series are used for. [Evaluation]}
+
+\stepcounter{Ecount}
+
+\frlea{Know the power series expansions for $1/(1-x)$, $\ln(1-x)$, $e^{x}$, $\sin(x)$, $\cos(x)$, $\arctan(x)$. [Knowledge, Application]}
+
+\stepcounter{Kcount}
+\stepcounter{Apcount}
+
+\frlea{Compute the Taylor series expansion (either the first few terms or the entire series in sigma notation) of a function either directly using the definition or using the above known Taylor series and combinations of differentiating or integrating. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the Taylor series for $1/(1-x)^{3}$ centred at $0$.}{$\displaystyle \sum_{n=2}^{\infty}\frac{n(n-1)}{2}x^{n-2}$.}
+
+\extex{Check out the final problem on the MATH 103 \href{https://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH103/April_2013/Question_10}{exam from 2013.}}
+
+\frlea{Compute the Taylor series expansion (either the first few terms or the entire series in sigma notation) of a function using the above known Taylor series and a combination of multiplying, composing and or adding Taylor series. [Application]}
+
+\stepcounter{Apcount}
+
+\exsol{Compute the first 3 nonzero terms for the Taylor series for $x^{2}\sin(x^{3})$ centred at $0$.}{$x^{5} - x^{11}/6 + x^{17}/120$}
+
+\exsol{Compute the Taylor series for $x^{3}\cos(x^{2})$ using summation notation centred at 0.}{$\displaystyle \sum_{n=0}^{\infty}\frac{(-1)^{n}x^{4n+3}}{(2n)!}$}
+
+\frlea{Use Taylor series to evaluate limits. [Comprehension, Application]}
+
+\stepcounter{Ccount}
+\stepcounter{Apcount}
+
+\frlea{Use Taylor series to evaluate derivatives of functions. [Comprehension, Application]}
+
+\stepcounter{Ccount}
+\stepcounter{Apcount}
+
+\exsol{Compute the 19th and 20th derivative of $x\arctan(x^{2})$ at the point $x=0$.}{$19!/9$, $0$}
+
+\frlea{Use Taylor series to evaluate integrals of functions. [Comprehension, Application]}
+
+\extex{See question 7 part (b) from the 2011 exam in \href{http://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH103/April_2011/Question_7_(b)}{Math 103.}}
+
+\exsol{Evaluate $\displaystyle \int_{0}^{1/2}\sum_{n=0}^{\infty}nx^{n-1}\,dx$}{2}
+
+\exsol{Evaluate $\displaystyle \int_{0}^{1/2}\sin(t^{2})\,dt$ using Taylor series}{$\displaystyle \sum_{n=0}^{\infty}\frac{(-1)^{n}(1/2)^{4n+3}}{(2n+1)!(4n+3)}$}
+
+\stepcounter{Ccount}
+\stepcounter{Apcount}
+
+\frlea{Use Taylor series to determine solutions to differential equations. [Comprehension, Application]}
+
+\stepcounter{Ccount}
+\stepcounter{Apcount}
+
+\extex{See question 2 part (c) from the 2011 exam in \href{http://wiki.ubc.ca/Science:Math_Exam_Resources/Courses/MATH103/April_2011/Question_2_(c)}{Math 103.}}
+
+\exsol{Using a Taylor series centred at $0$, solve $\frac{dy}{dx} = 1 + xy$ subject to $y(0) = 3$. What are the first four non-zero terms?}{$y = 3 + x + 3x^{2}/2 + x^{3}/2$}
+
+\relexam{
+\begin{itemize}
+\item \href{http://wiki.ubc.ca/Category:MER_Tag_Taylor_series}{wiki.ubc.ca/Category:MER Tag Taylor series}
+\item \href{https://wiki.ubc.ca/Category:MER_Tag_Power_series}{wiki.ubc.ca/Category:MER Tag Power series}
+\end{itemize}
+}
+
+
+%
+%
+% CHAPTER 13
+%
+%
+
+
+\section{Summary}
+
+Knowledge (Total : \arabic{Kcount}). These types of question refer to rote memorization of information and the ability to repeat the information exactly.
+\vskip1em
+Comprehension (Total : \arabic{Ccount}). This involves the ability to demonstrate an understanding of key facts of gained knowledge.
+\vskip1em
+Application (Total : \arabic{Apcount}). This involves taking the knowledge points and actually using the information to solve concrete problems.
+\vskip1em
+Analysis (Total : \arabic{Ancount}). This involves breaking down complex parts into simple components and applying skills learnt to each part.
+\vskip1em
+Evaluation (Total : \arabic{Ecount}). This involves making judgements or offering explanations on certain content.
+\vskip1em
+Proof (Total : \arabic{Pcount}). This could have been grouped with evaluation above but warrants a bit of extra emphasis. In problems with this flag, the process is far more valuable than the direct answer to a problem. With these problem, there is more of a focus on understand how parts fits together and being able to explain your answer with proper justification to another person.
+
+%
+%
+% CHAPTER 14
+%
+%
+
+\section{Solutions}
+
+%\blankexer{}
+%\blanksoln{}
+
+% BIBLIOGRAPHY
+%\bibliographystyle{alpha}
+%\bibliography{bibliography}
+
+\end{document}
+
+
+%Lines of code that I no longer am using but want for reference sake.
+
+%\usepackage{cleveref}
+%\usepackage[anythingbreaks]{breakurl}
+%Break urls nicely and fit them onto lines)
+%the urls give bad box errors - fix possible?
+%\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
+%  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+%  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+%  \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+%  \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+%  \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+%  \do\Y\do\Z}
+%  \sloppy
+
