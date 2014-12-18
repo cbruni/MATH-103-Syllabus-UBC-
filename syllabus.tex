@@ -75,7 +75,7 @@
 % Post: Creates an exercise that is numbered and links to a solution at the end.
 % Additional Information: Switch this command with the remarked command below to toggle (in)visible exercises
 
-\newcommand{\exer}[1]{\noindent \refstepcounter{exerc} \textbf{\hyperref[sol\arabic{ExerciseCounter}]{Exercise~\theexerc}}  \nolinebreak\nolinebreak \enskip #1 \label{exer\arabic{ExerciseCounter}}   \stepcounter{ExerciseCounter}\vskip1em}
+\newcommand{\exer}[1]{\noindent \refstepcounter{exerc} \textbf{\hyperref[sol\arabic{ExerciseCounter}]{Exercise~\theexerc}}  \nolinebreak\nolinebreak \enskip  \label{exer\arabic{ExerciseCounter}} #1 \stepcounter{ExerciseCounter}\vskip1em}
 %\newcommand{\exer}[1]{}
 
 
@@ -85,7 +85,7 @@
 % Pre: One parameter with the solution to a question.
 % Post: Creates a solution linked at the end of the document.
 % Additional Information: Switch this command with the remarked command below to toggle (in)visible solutions
-\newcommand{\soln}[1]{ \AtEndDocument{ \textbf{\hyperref[exer\arabic{SolutionCounter}]{\noindent Solution to \ref{exer\arabic{SolutionCounter}}}}	 #1 \phantomsection \label{sol\arabic{SolutionCounter}} \vskip1em  \stepcounter{SolutionCounter}} }
+\newcommand{\soln}[1]{ \AtEndDocument{ \textbf{\hyperref[exer\arabic{SolutionCounter}]{\noindent Solution to \ref{exer\arabic{SolutionCounter}}}}	  \phantomsection \label{sol\arabic{SolutionCounter}} #1 \vskip1em  \stepcounter{SolutionCounter}} }
 %\newcommand{\soln}[1]{ \AtEndDocument{ \solution{\textbf{to \ref{exer\arabic{SolutionCounter}}} #1} \phantomsection \label{sol\arabic{SolutionCounter}}  \arabic{SolutionCounter}   \stepcounter{SolutionCounter}} }
 %\newcommand{\soln}[1]{}
 
